@@ -14,18 +14,23 @@ struct slot_t {
 
 class lock_free_queue {
 public:
-  lock_free_queue(uint32_t capacity)
-      : buffer_(capacity), read_index_(0), write_index_(0) {}
-
-  // doesn't cope the state of buffer, only allocates same amount of memory.
-  lock_free_queue(const lock_free_queue &other);
-  // move all the state of lock_free_queue. Current queue becomes unusable
-  lock_free_queue(lock_free_queue &&other);
-
   lock_free_queue &operator=(const lock_free_queue &other) = delete;
   lock_free_queue &operator=(lock_free_queue &&other) = delete;
 
+public:
+  lock_free_queue(uint32_t capacity)
+      : buffer_(capacity), read_index_(0), write_index_(0) {}
+
+  // doesn't copy the state of buffer, only allocates same amount of memory in 'other'.
+  lock_free_queue(const lock_free_queue &other);
+
+  // Move the state lock_free_queue.
+  // The other lock_free_queue becomes unusable
+  lock_free_queue(lock_free_queue &&other);
+
   void push(int32_t value);
+
+  // return false if no data is available
   [[nodiscard]] bool pop(int &val);
 
   [[nodiscard]] uint32_t get_read_index() const noexcept {
@@ -33,6 +38,10 @@ public:
   }
   [[nodiscard]] uint32_t get_write_index() const noexcept {
     return write_index_.load(std::memory_order_acquire);
+  }
+
+  [[nodiscard]] uint32_t get_capacity() const noexcept {
+    return buffer_.capacity();
   }
 
   ~lock_free_queue() = default;
