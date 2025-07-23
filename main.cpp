@@ -18,7 +18,7 @@ int main() {
   std::thread producer;
   producer = std::thread([&shared_queue, &shutdown]() {
     for (uint32_t i = 0; i < AMOUNT_OF_PRODUCED_VALUES; ++i) {
-      shared_queue.push(i/*rand() % 1000*/);
+      shared_queue.push(i /*rand() % 1000*/);
     }
     shutdown.store(true, std::memory_order_release);
   });
@@ -33,6 +33,10 @@ int main() {
         if (shared_queue.pop(value)) {
           std::cout << "Consumer #" << i << " popped value: " << value
                     << std::endl;
+          // artificial delay to balance threads was added under certain conditions (e.g., every N records) to  improve load distribution
+          if (value % 8 == 0) {
+            std::this_thread::yield();
+          }
         } else if (shutdown.load(std::memory_order_acquire) &&
                    shared_queue.get_read_index() >=
                        shared_queue.get_write_index()) {
