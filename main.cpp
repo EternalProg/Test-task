@@ -18,7 +18,7 @@ int main() {
   std::thread producer;
   producer = std::thread([&shared_queue, &shutdown]() {
     for (uint32_t i = 0; i < AMOUNT_OF_PRODUCED_VALUES; ++i) {
-      shared_queue.push(rand() % 1000);
+      shared_queue.push(i/*rand() % 1000*/);
     }
     shutdown.store(true, std::memory_order_release);
   });
