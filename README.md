@@ -1,5 +1,17 @@
 # Test task
 
+## Table of Contents
+- [Test task](#test-task)
+  - [Table of Contents](#table-of-contents)
+  - [Description](#description)
+  - [Build](#build)
+  - [Project Structure](#project-structure)
+  - [Implementation Details](#implementation-details)
+      - [\[THOUGHTS\]](#thoughts)
+    - [Push (Producer)](#push-producer)
+    - [Pop (Consumers)](#pop-consumers)
+    - [Shutdown Signal](#shutdown-signal)
+
 ##  Description
 
 Implements a multithreaded command-line application in C++ (C++14) that meets the following requirements:
