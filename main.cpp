@@ -9,7 +9,7 @@
 
 constexpr uint32_t CONSUMERS_COUNT = 2;
 constexpr uint32_t QUEUE_CAPACITY = 256;
-constexpr uint32_t AMOUNT_OF_PRODUCED_VALUES = 10000;
+constexpr uint32_t AMOUNT_OF_PRODUCED_VALUES = 1000;
 
 int main() {
   detail::lock_free_queue shared_queue(QUEUE_CAPACITY);
@@ -33,6 +33,7 @@ int main() {
         if (shared_queue.pop(value)) {
           std::cout << "Consumer #" << i << " popped value: " << value
                     << std::endl;
+
           // artificial delay to balance threads was added under certain conditions (e.g., every N records) to  improve load distribution
           if (value % 8 == 0) {
             std::this_thread::yield();
