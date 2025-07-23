@@ -26,14 +26,16 @@ public:
   lock_free_queue &operator=(lock_free_queue &&other) = delete;
 
   void push(int32_t value);
-  bool pop(int &val);
+  [[nodiscard]] bool pop(int &val);
 
-  uint32_t get_read_index() const {
+  [[nodiscard]] uint32_t get_read_index() const noexcept {
     return read_index_.load(std::memory_order_acquire);
   }
-  uint32_t get_write_index() const {
+  [[nodiscard]] uint32_t get_write_index() const noexcept {
     return write_index_.load(std::memory_order_acquire);
   }
+
+  ~lock_free_queue() = default;
 
 private:
   std::vector<slot_t> buffer_;
