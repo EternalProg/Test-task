@@ -39,6 +39,8 @@ The task requirements were somewhat unclear for me. It’s not specified whether
 
 Therefore, I assumed only standard C++ is allowed, and strict output ordering is not required.
 
+Because of this, and because of limitations on synchronization primitives (mutexes...), the output is not synchronized and may look strange.
+
 My queue implementation is acceptable only to this specific case.
 
 ---
