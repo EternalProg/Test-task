@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-c -std=c++14 -Wall -Wextra
+CXXFLAGS=-c -std=c++17 -Wall -Wextra
 LDFLAGS=-pthread
 SOURCES=main.cpp lock_free_queue.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
