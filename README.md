@@ -14,7 +14,7 @@
 
 ##  Description
 
-Implements a multithreaded command-line application in C++ (C++14) that meets the following requirements:
+Implements a multithreaded command-line application in C++ (C++17) that meets the following requirements:
 
 - One **producer** thread generates a sequence of integers.
 - Two **consumer** threads retrieve and print values from a **shared queue**.
@@ -26,7 +26,7 @@ Implements a multithreaded command-line application in C++ (C++14) that meets th
 
 ## Build
 
-Ensure you have GCC installed (with C++14 support). Then run:
+Ensure you have GCC installed (with C++17 support). Then run:
 ```bash
 make
 ./main
