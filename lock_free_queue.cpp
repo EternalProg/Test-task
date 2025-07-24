@@ -3,10 +3,10 @@
 #include <thread>
 
 namespace detail {
-lock_free_queue::lock_free_queue(const lock_free_queue &other)
+lock_free_queue::lock_free_queue(const lock_free_queue &other) noexcept
     : buffer_(other.buffer_.capacity()) {}
 
-lock_free_queue::lock_free_queue(lock_free_queue &&other)
+lock_free_queue::lock_free_queue(lock_free_queue &&other) noexcept
     : buffer_(std::move(other.buffer_)),
       read_index_(other.read_index_.load(std::memory_order_acquire)),
       write_index_(other.write_index_.load(std::memory_order_acquire)) {
@@ -14,7 +14,7 @@ lock_free_queue::lock_free_queue(lock_free_queue &&other)
   other.write_index_.store(0, std::memory_order_release);
 }
 
-void lock_free_queue::push(int32_t value) {
+void lock_free_queue::push(int32_t value) noexcept {
   uint32_t index;
   while (true) {
     index = write_index_.load(std::memory_order_relaxed);
@@ -38,7 +38,7 @@ void lock_free_queue::push(int32_t value) {
   s.ready_to_consume.store(true, std::memory_order_release);
 }
 
-bool lock_free_queue::pop(int32_t &val) {
+bool lock_free_queue::pop(int32_t &val) noexcept {
   while (true) {
     uint32_t index = read_index_.load(std::memory_order_relaxed);
     slot_t &s = buffer_[index % buffer_.size()];
